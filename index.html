@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cold War Exhibit</title>
+<style>
+    /* GLOBAL STYLES */
+    body { background-color: #121212; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding-bottom: 50px; line-height: 1.6; }
+    nav { position: sticky; top: 0; background: #000; border-bottom: 2px solid #333; padding: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+    .nav-title { font-weight: bold; color: #fff; letter-spacing: 1px; }
+    .dots { display: flex; gap: 8px; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: #555; }
+    
+    header { text-align: center; padding: 60px 20px 40px; border-bottom: 1px solid #333; background: #1a1a1a; }
+    h1 { margin: 0; font-size: 2.5rem; color: #fff; text-transform: uppercase; letter-spacing: -1px; }
+    .subtitle { color: #aaa; margin-top: 10px; font-size: 1.2rem; }
+    
+    /* NEW INTRODUCTION SECTION */
+    .intro-wrapper { background: #1a1a1a; padding-bottom: 50px; border-bottom: 1px solid #333; }
+    .intro-card { 
+        max-width: 900px; 
+        margin: 0 auto; 
+        background: #222; 
+        padding: 40px; 
+        border-radius: 4px; 
+        border-left: 6px solid #ffd43b; /* Accent color */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .intro-title { font-size: 1.5rem; color: #fff; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
+    .intro-text { font-size: 1.1rem; color: #ccc; margin-bottom: 20px; }
+    .instruction-list { list-style: none; padding: 0; margin-top: 20px; display: flex; flex-wrap: wrap; gap: 20px; }
+    .instruction-step { flex: 1; min-width: 200px; background: #2a2a2a; padding: 15px; border-radius: 4px; border: 1px solid #333; }
+    .step-num { color: #ffd43b; font-weight: bold; font-size: 1.2rem; display: block; margin-bottom: 5px; }
+
+    /* INQUIRY BOX (Moved inside intro) */
+    .inquiry-box { background: #333; border: 1px solid #444; padding: 20px; margin-top: 30px; border-radius: 4px; text-align: center; }
+
+    /* CONTEXT & STAGE SETTING */
+    .stage-setter { max-width: 1000px; margin: 0 auto 30px auto; background: #1a1a1a; padding: 25px; border-radius: 6px; border-top: 4px solid #555; }
+    .stage-title { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #fff; margin-bottom: 10px; display: block; font-size: 1.1rem; }
+    .stage-text { color: #ccc; margin-bottom: 15px; font-size: 1rem; }
+    .vocab-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
+    .vocab-item { background: #252525; padding: 5px 10px; border-radius: 4px; font-size: 0.85rem; color: #aaa; border: 1px solid #333; }
+    .vocab-item strong { color: #fff; }
+
+    /* LEARNING OBJECTIVES */
+    .objectives-box { background: #1e1e1e; border: 1px solid #444; padding: 25px; max-width: 1000px; margin: 0 auto 40px auto; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .objectives-title { text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; color: #aaa; margin-bottom: 15px; border-bottom: 1px solid #444; padding-bottom: 5px; }
+    .learning-target { font-style: italic; margin-bottom: 20px; color: #fff; font-size: 1.05rem; border-left: 3px solid #555; padding-left: 15px; }
+    .success-criteria { list-style-type: none; padding: 0; }
+    .success-criteria li { margin-bottom: 8px; color: #ccc; padding-left: 20px; position: relative; }
+    .success-criteria li::before { content: "✓"; position: absolute; left: 0; color: #777; }
+
+    /* PRESIDENTIAL DOSSIERS */
+    .command-section { max-width: 1000px; margin: 0 auto 50px auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+    .prez-card { background: #222; border: 1px solid #444; border-radius: 6px; overflow: hidden; }
+    .prez-header { padding: 15px; background: #2a2a2a; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
+    .prez-name { font-weight: bold; color: #fff; font-size: 1.1rem; }
+    .prez-years { font-family: 'Courier New', monospace; font-size: 0.9rem; color: #aaa; }
+    .prez-body { padding: 20px; }
+    .prez-btn { width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; transition: background 0.2s; }
+    .prez-btn:hover { background: #444; }
+    
+    .prez-info { display: none; margin-top: 15px; font-size: 0.9rem; color: #ccc; border-top: 1px solid #444; padding-top: 15px; animation: fadeIn 0.3s ease; }
+    .bio-tag { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+    .dem-tag { background: #1e3a8a; color: #bfdbfe; border: 1px solid #3b82f6; } 
+    .rep-tag { background: #7f1d1d; color: #fecaca; border: 1px solid #ef4444; } 
+    .bio-section { margin-bottom: 12px; }
+    .bio-label { color: #888; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px; }
+
+    /* GALLERIES & ARTIFACTS */
+    section { padding: 50px 20px; border-bottom: 1px solid #333; }
+    .gallery-title { text-align: center; margin-bottom: 40px; }
+    .gallery-tag { display: inline-block; padding: 5px 15px; border: 2px solid; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+    
+    .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; max-width: 1200px; margin: 0 auto; }
+    .card { background: #1e1e1e; border: 1px solid #333; border-radius: 6px; width: 100%; max-width: 350px; display: flex; flex-direction: column; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-2px); border-color: #555; }
+    .card-header { padding: 15px; background: #252525; border-bottom: 1px solid #333; font-weight: bold; display: flex; justify-content: space-between; }
+    .card-body { padding: 20px; flex-grow: 1; }
+    
+    .btn-container { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-link, .btn-toggle { flex: 1; padding: 10px; text-align: center; border-radius: 4px; font-size: 0.85rem; cursor: pointer; text-decoration: none; font-weight: bold; }
+    .btn-link { background: #ffd43b; color: #000; transition: background 0.2s; }
+    .btn-link:hover { background: #e6c200; }
+    .btn-toggle { background: transparent; color: #ccc; border: 1px solid #555; }
+    .btn-toggle:hover { background: #333; }
+    
+    .details { display: none; background: #181818; padding: 20px; border-top: 1px solid #333; }
+    .context-note { font-style: italic; color: #aaa; border-left: 3px solid #666; padding-left: 15px; margin-bottom: 15px; font-size: 0.9rem; }
+    .question-list { padding-left: 20px; margin: 0; }
+    .question-list li { margin-bottom: 8px; color: #ddd; }
+    
+    .enrichment-card { border: 1px dashed #777; background: #1a1a1a; opacity: 0.9; }
+    .enrichment-header { background: #222; border-bottom: 1px dashed #555; color: #ffd43b; }
+    .enrichment-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; color: #888; }
+    .enrichment-link { display: block; margin-top: 15px; color: #ffd43b; text-decoration: none; font-size: 0.9rem; border: 1px solid #ffd43b; padding: 8px; text-align: center; border-radius: 4px; }
+    .enrichment-link:hover { background: #ffd43b; color: #000; }
+
+    .synthesis { background: #1a1a1a; border: 1px solid #555; padding: 25px; margin: 50px auto 0; max-width: 900px; text-align: center; border-radius: 6px; }
+
+    /* FINAL REFLECTION */
+    .reflection-section { background: #000; padding: 60px 20px; text-align: center; border-top: 5px solid #fff; }
+    .reflection-content { max-width: 800px; margin: 0 auto; }
+    .reflection-questions { text-align: left; background: #222; padding: 30px; margin-top: 30px; border-radius: 6px; border: 1px solid #444; }
+
+    /* THEME ACCENTS */
+    .red-theme .gallery-tag, .red-theme h2 { color: #ff6b6b; border-color: #ff6b6b; }
+    .red-theme .stage-setter { border-top-color: #ff6b6b; }
+    .red-theme .objectives-box { border-left: 4px solid #ff6b6b; }
+    
+    .blue-theme .gallery-tag, .blue-theme h2 { color: #4dabf7; border-color: #4dabf7; }
+    .blue-theme .stage-setter { border-top-color: #4dabf7; }
+    .blue-theme .objectives-box { border-left: 4px solid #4dabf7; }
+    
+    .purple-theme .gallery-tag, .purple-theme h2 { color: #cc5de8; border-color: #cc5de8; }
+    .purple-theme .stage-setter { border-top-color: #cc5de8; }
+    .purple-theme .objectives-box { border-left: 4px solid #cc5de8; }
+    
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-title">COLD WAR ARCHIVE</div>
+    <div class="dots">
+        <div class="dot" style="background:#ff6b6b"></div>
+        <div class="dot" style="background:#4dabf7"></div>
+        <div class="dot" style="background:#cc5de8"></div>
+    </div>
+</nav>
+
+<header>
+    <h1>From Containment<br>to Collapse</h1>
+    <div class="subtitle">1945 — 1991</div>
+</header>
+
+<div class="intro-wrapper">
+    <div class="intro-card">
+        <h2 class="intro-title">Welcome to the Archive</h2>
+        <p class="intro-text">
+            You are entering a digital museum dedicated to the <strong>Cold War</strong>, a 45-year geopolitical struggle between the United States and the Soviet Union. This was not just a war of armies, but a war of ideas, fear, and influence that divided the globe.
+        </p>
+        <p class="intro-text">
+            Your mission is to explore the artifacts, documents, and personal stories in these three galleries. As you move from the aftermath of WWII to the fall of the Berlin Wall, you will analyze how leadership decisions shaped the modern world.
+        </p>
+        
+        <ul class="instruction-list">
+            <li class="instruction-step">
+                <span class="step-num">01. Explore</span>
+                Investigate the color-coded galleries to uncover key events and artifacts.
+            </li>
+            <li class="instruction-step">
+                <span class="step-num">02. Analyze</span>
+                Use the "Investigate" and "Dossier" buttons to dive deeper into the context.
+            </li>
+            <li class="instruction-step">
+                <span class="step-num">03. Synthesize</span>
+                Connect the evidence to answer the synthesis questions at the end of each era.
+            </li>
+        </ul>
+
+        <div class="inquiry-box">
+            <strong style="color:#ffd43b; text-transform: uppercase; letter-spacing: 1px;">Overarching Inquiry</strong><br><br>
+            <span style="font-size:1.2rem; font-style: italic;">"When nations feel threatened, what choices do they make, and who lives with the consequences?"</span>
+        </div>
+    </div>
+</div>
+
+<section class="red-theme">
+    <div class="gallery-title">
+        <div class="gallery-tag">Gallery 1</div>
+        <h2>The Architecture of Containment (1945-1960)</h2>
+    </div>
+
+    <div class="stage-setter">
+        <span class="stage-title">Setting the Stage: A World Divided</span>
+        <p class="stage-text">World War II is over, but there is no peace. The United States and the Soviet Union—former allies—are now bitter enemies. America is afraid that the Soviets will spread communism across the globe. To stop this, U.S. leaders decide they must "contain" (stop) communism wherever it appears, leading to fear at home and new wars abroad.</p>
+        <div class="vocab-row">
+            <div class="vocab-item"><strong>Containment:</strong> The U.S. policy to stop the spread of communism.</div>
+            <div class="vocab-item"><strong>Iron Curtain:</strong> The imaginary line dividing democratic West Europe from communist East Europe.</div>
+            <div class="vocab-item"><strong>Red Scare:</strong> The intense fear that communists were hiding inside the U.S. government.</div>
+        </div>
+    </div>
+
+    <div class="objectives-box">
+        <div class="objectives-title">Mission Briefing: SSUSH20</div>
+        <p class="learning-target">We are learning to analyze how U.S. foreign and domestic policies responded to the threat of communism during the Truman and Eisenhower administrations so that we can understand how early Cold War decisions shaped American global leadership and domestic culture.</p>
+        <ul class="success-criteria">
+            <li>I can explain how the Truman Doctrine and containment established America's role as the leader of the free world.</li>
+            <li>I can describe how the Marshall Plan rebuilt Europe and expanded American influence.</li>
+            <li>I can analyze how the Korean War demonstrated America's commitment to containing communism globally.</li>
+            <li>I can identify how McCarthyism shaped American domestic culture and civil liberties.</li>
+        </ul>
+    </div>
+
+    <div class="command-section">
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">Harry S. Truman</span><span class="prez-years">1945-1953</span></div>
+            <div class="prez-body">
+                <div class="bio-tag dem-tag">Democrat</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>Assumed office after FDR's death. He oversaw the end of WWII (dropping the atomic bombs), the desegregation of the military, and the "Fair Deal" domestic agenda.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>The Architect.</strong> Established the policy of "Containment" (Truman Doctrine), authorized the Marshall Plan, and committed US troops to the Korean War.</div>
+                </div>
+            </div>
+        </div>
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">Dwight D. Eisenhower</span><span class="prez-years">1953-1961</span></div>
+            <div class="prez-body">
+                <div class="bio-tag rep-tag">Republican</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>A WWII 5-Star General. His "Dynamic Conservatism" brought the Interstate Highway System and economic prosperity to 1950s America.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>The General.</strong> Ended the Korean War; formulated the "Domino Theory"; authorized the U-2 spy plane missions; warned against the "Military-Industrial Complex."</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-header"><span>Truman Doctrine</span><span>SPEECH</span></div>
+            <div class="card-body">
+                <p>1947: Truman asks Congress for $400 million to aid Greece and Turkey.</p>
+                <div class="btn-container"><a href="https://www.trumanlibrary.gov/library/public-papers/56/special-message-congress-greece-and-turkey-truman-doctrine" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Declared America would lead the "free world."</div><ul class="question-list"><li>What happens if US doesn't act?</li><li>Why take on this role?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>Marshall Plan</span><span>CARTOON</span></div>
+            <div class="card-body">
+                <p>1948: US vs. European views on aid.</p>
+                <div class="btn-container"><a href="https://www.loc.gov/exhibits/marshall/marsh-exhibition.html" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Generosity vs. Dominance.</div><ul class="question-list"><li>How do perspectives differ?</li><li>Complexity of aid?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>McCarthyism</span><span>HERBLOCK</span></div>
+            <div class="card-body">
+                <p>1950s: Satire on the "Red Scare."</p>
+                <div class="btn-container"><a href="https://www.loc.gov/collections/herblock-cartoon-drawings/about-this-collection/" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Danger to civil liberties.</div><ul class="question-list"><li>Techniques used?</li><li>Cost to society?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>Korean War</span><span>VIDEO</span></div>
+            <div class="card-body">
+                <p>1950-53: Voices from the "Forgotten War."</p>
+                <div class="btn-container"><a href="https://koreanwarlegacy.org/interactive-library/" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Diverse veterans in segregated military.</div><ul class="question-list"><li>Different experiences?</li><li>What do stories reveal?</li></ul></div>
+        </div>
+        
+        <div class="card enrichment-card">
+            <div class="card-header enrichment-header"><span>Enrichment</span><span>BOOK</span></div>
+            <div class="card-body">
+                <span class="enrichment-label">Historical Fiction</span>
+                <p><strong>Brother's Keeper</strong><br>by Julie Lee</p>
+                <p style="font-size:0.9rem; color:#aaa;">The story of a North Korean girl fleeing south just before the outbreak of the Korean War.</p>
+                <a href="https://www.julieleebooks.com/books" target="_blank" class="enrichment-link">View Book Info</a>
+            </div>
+        </div>
+    </div>
+    <div class="synthesis"><strong>Synthesis Task:</strong><p>Looking across these sources, how did early Cold War decisions shape both America's role in the world and life at home?</p></div>
+</section>
+
+<section class="blue-theme">
+    <div class="gallery-title">
+        <div class="gallery-tag">Gallery 2</div>
+        <h2>Crises, Space, & Vietnam (1960-1968)</h2>
+    </div>
+
+    <div class="stage-setter">
+        <span class="stage-title">Setting the Stage: On the Brink</span>
+        <p class="stage-text">The Cold War gets dangerous. The U.S. and Soviet Union race to build more nuclear weapons and compete to see who can get to space first. Tensions are so high that one wrong move could destroy the world. Meanwhile, America sends thousands of soldiers into the jungles of Vietnam to fight communism, but the war becomes unpopular at home.</p>
+        <div class="vocab-row">
+            <div class="vocab-item"><strong>Space Race:</strong> The competition between the US and USSR to achieve spaceflight capability.</div>
+            <div class="vocab-item"><strong>Domino Theory:</strong> The belief that if one nation fell to communism, its neighbors would follow.</div>
+            <div class="vocab-item"><strong>Sputnik:</strong> The first artificial satellite, launched by the Soviets, which shocked America.</div>
+        </div>
+    </div>
+
+    <div class="objectives-box">
+        <div class="objectives-title">Mission Briefing: SSUSH21</div>
+        <p class="learning-target">We are learning to evaluate how the Kennedy and Johnson administrations navigated Cold War crises, including the Space Race and the Vietnam War, so that we can understand how superpower competition influenced American foreign policy and military involvement.</p>
+        <ul class="success-criteria">
+            <li>I can explain the significance of the Space Race, Sputnik, and the moon landing.</li>
+            <li>I can analyze the causes and consequences of the Cuban Missile Crisis.</li>
+            <li>I can evaluate the causes of U.S. escalation in the Vietnam War.</li>
+            <li>I can analyze the role of the media in shaping public opinion during the Vietnam War.</li>
+        </ul>
+    </div>
+
+    <div class="command-section">
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">John F. Kennedy</span><span class="prez-years">1961-1963</span></div>
+            <div class="prez-body">
+                <div class="bio-tag dem-tag">Democrat</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>Youngest elected president. Proposed the "New Frontier" domestic program and Peace Corps. His presidency was cut short by assassination in Dallas, 1963.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>Crisis Manager.</strong> Humiliated by the Bay of Pigs; pledged to land a man on the moon; successfully navigated the Cuban Missile Crisis; negotiated Limited Nuclear Test Ban Treaty.</div>
+                </div>
+            </div>
+        </div>
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">Lyndon B. Johnson</span><span class="prez-years">1963-1969</span></div>
+            <div class="prez-body">
+                <div class="bio-tag dem-tag">Democrat</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>Sworn in after JFK's death. Launched the "Great Society" (War on Poverty, Medicare) and signed the landmark Civil Rights Act of 1964 and Voting Rights Act of 1965.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>Wartime President.</strong> Escalated U.S. involvement in Vietnam following the Gulf of Tonkin Resolution, which eventually overshadowed his domestic achievements.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-header"><span>Hidden Figures</span><span>NASA</span></div>
+            <div class="card-body">
+                <p>Katherine Johnson & "Human Computers."</p>
+                <div class="btn-container"><a href="https://www.nasa.gov/from-hidden-to-modern-figures/" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Breaking barriers in STEM.</div><ul class="question-list"><li>Contribution despite discrimination?</li><li>Who is "hidden"?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>JFK's "Moon Shot"</span><span>SPEECH</span></div>
+            <div class="card-body">
+                <p>1961: Pledge to land on the moon.</p>
+                <div class="btn-container"><a href="https://www.jfklibrary.org/learn/about-jfk/historic-speeches/address-to-joint-session-of-congress-may-25-1961" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Race against Soviets.</div><ul class="question-list"><li>Science or competition?</li><li>Risks acknowledged?</li></ul></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header"><span>Cuban Missile Crisis</span><span>ADDRESS</span></div>
+            <div class="card-body">
+                <p>1962: 13 days near nuclear war.</p>
+                <div class="btn-container"><a href="https://www.jfklibrary.org/learn/about-jfk/historic-speeches/address-during-the-cuban-missile-crisis" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Blockade of Cuba.</div><ul class="question-list"><li>Actions announced?</li><li>How close to war?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>Walter Cronkite</span><span>VIDEO</span></div>
+            <div class="card-body">
+                <p>1968: Report on Tet Offensive.</p>
+                <div class="btn-container"><a href="https://www.youtube.com/watch?v=NxlCXyNbawc" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Trusted news vs. Govt reports.</div><ul class="question-list"><li>Difference from official reports?</li><li>Why did his opinion matter?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>Refugee Stories</span><span>INTERVIEW</span></div>
+            <div class="card-body">
+                <p>Thanhha Lai on fleeing Saigon.</p>
+                <div class="btn-container"><a href="https://www.nyhistory.org/blogs/interview-thanhha-lai-author-inside-back-written-caitlin-okeefe" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Human consequences.</div><ul class="question-list"><li>Why do these stories matter?</li><li>Consequences beyond battle?</li></ul></div>
+        </div>
+
+        <div class="card enrichment-card">
+            <div class="card-header enrichment-header"><span>Enrichment</span><span>MEMOIR</span></div>
+            <div class="card-body">
+                <span class="enrichment-label">Refugee Experience</span>
+                <p><strong>Inside Out and Back Again</strong><br>by Thanhha Lai</p>
+                <p style="font-size:0.9rem; color:#aaa;">A novel in verse about a young girl fleeing Vietnam and adjusting to life in Alabama.</p>
+                <a href="https://www.harpercollins.com/products/inside-out-and-back-again-thanhha-lai" target="_blank" class="enrichment-link">View Book Info</a>
+            </div>
+        </div>
+    </div>
+    <div class="synthesis"><strong>Synthesis Task:</strong><p>How did superpower competition during the Kennedy and Johnson years shape American foreign policy, technological achievement, and military involvement?</p></div>
+</section>
+
+<section class="purple-theme">
+    <div class="gallery-title">
+        <div class="gallery-tag">Gallery 3</div>
+        <h2>Détente to Dissolution (1969-1991)</h2>
+    </div>
+
+    <div class="stage-setter">
+        <span class="stage-title">Setting the Stage: The Long Road to Peace</span>
+        <p class="stage-text">After decades of fear, things begin to change. President Nixon tries a new strategy called "Détente" to calm things down. He even visits communist China! But by the 1980s, President Reagan challenges the Soviet Union to tear down its walls. The Soviet economy crumbles, and the Cold War finally comes to an end.</p>
+        <div class="vocab-row">
+            <div class="vocab-item"><strong>Détente:</strong> A period of easing tensions and better relations between the US and USSR.</div>
+            <div class="vocab-item"><strong>Triangular Diplomacy:</strong> Nixon's strategy to pit communist China and the Soviet Union against each other.</div>
+            <div class="vocab-item"><strong>War Powers Act:</strong> A law passed to stop the President from starting wars without Congress's permission.</div>
+        </div>
+    </div>
+
+    <div class="objectives-box">
+        <div class="objectives-title">Mission Briefing: SSUSH22-23</div>
+        <p class="learning-target">We are learning to analyze the shift in American foreign policy from the Vietnam era through the collapse of the Soviet Union so that we can understand how changing leadership strategies impacted the end of the Cold War.</p>
+        <ul class="success-criteria">
+            <li>I can explain the strategic impact of Nixon's opening of diplomatic relations with China.</li>
+            <li>I can describe the purpose and significance of the War Powers Act.</li>
+            <li>I can analyze how Reagan's economic and military policies contributed to the collapse of the Soviet Union.</li>
+        </ul>
+    </div>
+
+    <div class="command-section">
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">Richard Nixon</span><span class="prez-years">1969-1974</span></div>
+            <div class="prez-body">
+                <div class="bio-tag rep-tag">Republican</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>Established the EPA and signed the Clean Air Act. His presidency ended in resignation due to the Watergate scandal, overshadowing his foreign policy achievements.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>The Strategist.</strong> Pursued "Détente" (easing tensions); opened diplomatic relations with China to pressure the Soviets; signed the Paris Peace Accords ending US involvement in Vietnam.</div>
+                </div>
+            </div>
+        </div>
+        <div class="prez-card">
+            <div class="prez-header"><span class="prez-name">Ronald Reagan</span><span class="prez-years">1981-1989</span></div>
+            <div class="prez-body">
+                <div class="bio-tag rep-tag">Republican</div>
+                <button class="prez-btn" onclick="togglePrez(this)">Access Dossier</button>
+                <div class="prez-info">
+                    <div class="bio-section"><span class="bio-label">Presidency Summary</span>Led a "Conservative Revolution" focused on cutting taxes ("Reaganomics"), reducing regulation, and appointing conservative judges. Survived an assassination attempt in 1981.</div>
+                    <div class="bio-section"><span class="bio-label">Cold War Role</span><strong>The Challenger.</strong> Abandoned détente for "Peace through Strength"; increased military spending; supported anti-communist rebels; challenged Gorbachev to "Tear down this wall."</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-header"><span>Nixon in China</span><span>TEXT</span></div>
+            <div class="card-body">
+                <p>1971: Nixon visits Communist China.</p>
+                <div class="btn-container"><a href="https://www.presidency.ucsb.edu/documents/remarks-the-nation-announcing-acceptance-invitation-visit-the-peoples-republic-china" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Pressure on Soviets.</div><ul class="question-list"><li>Why shocking?</li><li>Strategic impact?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>War Powers Act</span><span>LAW</span></div>
+            <div class="card-body">
+                <p>1973: Checking Presidential power.</p>
+                <div class="btn-container"><a href="https://www.congress.gov/bill/93rd-congress/house-joint-resolution/542" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Response to Vietnam.</div><ul class="question-list"><li>Powers given to Congress?</li><li>Why necessary?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>"Tear Down This Wall"</span><span>SPEECH</span></div>
+            <div class="card-body">
+                <p>1987: Reagan challenges Gorbachev.</p>
+                <div class="btn-container"><a href="https://www.reaganlibrary.gov/archives/speech/remarks-east-west-relations-brandenburg-gate-west-berlin" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Delegitimizing the Iron Curtain.</div><ul class="question-list"><li>What is the challenge?</li><li>Connection to freedom?</li></ul></div>
+        </div>
+        <div class="card">
+            <div class="card-header"><span>Behind Iron Curtain</span><span>VIDEO</span></div>
+            <div class="card-body">
+                <p>Peter Sís on growing up in Prague.</p>
+                <div class="btn-container"><a href="https://www.c-span.org/program/book-tv/the-wall-growing-up-behind-the-iron-curtain/216174" target="_blank" class="btn-link">View Artifact</a><button class="btn-toggle" onclick="toggleDetails(this)">Investigate</button></div>
+            </div>
+            <div class="details"><div class="context-note">CONTEXT: Hope through culture.</div><ul class="question-list"><li>Child vs. Teen experience?</li><li>What kept hope alive?</li></ul></div>
+        </div>
+
+        <div class="card enrichment-card">
+            <div class="card-header enrichment-header"><span>Enrichment</span><span>GRAPHIC MEMOIR</span></div>
+            <div class="card-body">
+                <span class="enrichment-label">Eastern Bloc Perspective</span>
+                <p><strong>The Wall</strong><br>by Peter Sís</p>
+                <p style="font-size:0.9rem; color:#aaa;">Caldecott Honor graphic memoir combining illustrations and journal entries about childhood in Communist Prague.</p>
+                <a href="https://www.c-span.org/program/book-tv/the-wall-growing-up-behind-the-iron-curtain/216174" target="_blank" class="enrichment-link">View Book Info</a>
+            </div>
+        </div>
+    </div>
+    <div class="synthesis">
+        <strong>Synthesis Task:</strong>
+        <p>How did changing American strategies and leadership contribute to the collapse of the Soviet Union? Consider perspectives from both American leaders and those who lived behind the Iron Curtain.</p>
+    </div>
+</section>
+
+<section class="reflection-section">
+    <div class="reflection-content">
+        <h2>Final Reflection</h2>
+        <div class="reflection-questions">
+            <h3 style="color:#aaa; border-bottom:1px solid #444; padding-bottom:10px; font-size:1.1rem;">Overarching Question:</h3>
+            <p style="font-size:1.3rem; color:#fff; font-style:italic;">"When nations feel threatened, what choices do they make, and who lives with the consequences?"</p>
+            <hr style="border-color:#444; margin:20px 0;">
+            <p style="color:#ccc;">Consider evidence from across the entire Cold War era:</p>
+            <ul style="color:#ddd; line-height:1.8;">
+                <li>What choices did American leaders make when they felt threatened by communism?</li>
+                <li>What choices did ordinary people make when caught in the middle of the Cold War?</li>
+                <li>Who paid the price for these decisions, both at home and abroad?</li>
+                <li>What finally brought the Cold War to an end?</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<script>
+    function toggleDetails(btn) {
+        var card = btn.closest('.card');
+        var details = card.querySelector('.details');
+        if (details.style.display === "block") {
+            details.style.display = "none";
+            btn.textContent = "Investigate";
+            btn.style.color = "#ccc";
+            btn.style.background = "transparent";
+        } else {
+            details.style.display = "block";
+            btn.textContent = "Close";
+            btn.style.color = "#fff";
+            btn.style.background = "#333";
+        }
+    }
+
+    function togglePrez(btn) {
+        var card = btn.closest('.prez-card');
+        var info = card.querySelector('.prez-info');
+        if (info.style.display === "block") {
+            info.style.display = "none";
+            btn.textContent = "Access Dossier";
+            btn.style.background = "#333";
+        } else {
+            info.style.display = "block";
+            btn.textContent = "Close Dossier";
+            btn.style.background = "#555";
+        }
+    }
+</script>
+
+</body>
+</html>
