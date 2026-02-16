@@ -13,4 +13,4 @@ Synthesis questions for each gallery
 Enrichment book recommendations
 
 Credits
-Pedagogical framework and text selection by Renee (Burke County High School). Website code generated with assistance from Claude (Anthropic).
+Pedagogical framework and text selection by Renee (Burke County High School). Website code generated with assistance from Gemini (Google).
